@@ -1,6 +1,8 @@
 from django.db.models import Max
 from django.test import TestCase, Client
 
+from sys import stdout
+
 from .models import Airport, Flight
 
 
@@ -52,9 +54,9 @@ class FlightTestCase(TestCase):
         self.assertEqual(response.context["flights"].count(), 3)
 
     def test_valid_flight_page(self):
-        a = Airport.objects.get(code="AAA")
+        a = Airport.objects.get(code="AAA")        
         f = Flight.objects.get(origin=a, destination=a)
 
         c = Client()
-        response = c.get(f"/flights/{f.id}")
+        response = c.get(f"/flights/{f.id}/")
         self.assertEqual(response.status_code, 200)
